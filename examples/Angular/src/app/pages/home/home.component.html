@@ -1,0 +1,6 @@
+<h1>Download: {{totalDownload}} | Upload: {{totalUpload}} | Total: {{totalDownload + totalUpload}}</h1>
+<ul class="red">
+  <li *ngFor="let trafic of traficData">
+    Nome do serviço: {{trafic.name}} - Upload: {{trafic.upload}} - Download: {{trafic.download}}
+  </li>
+</ul>
