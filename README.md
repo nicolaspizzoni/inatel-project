@@ -1,10 +1,10 @@
-# Projeto Hackathon => trafego de dados para Viasat - Inatel
+# Projeto Hackathon trafego de dados para Viasat - Inatel
 
 ## Requisitos
 1. É necessário que você tenha [Python](https://www.python.org/downloads/) instalado e uma IDE para trabalhar.
 2. A instalação do [npcap](https://npcap.com/#download) também é necessária.
 3. A instalação do [NodeJS](https://nodejs.org/en) na versão LTS, também é necessária.
-4. A instalação da [CLI Angular] também é necessária: npm install -g @angular/cli
+4. A instalação da [AngularCLI] também é necessária: npm install -g @angular/cli
 
 ## Execução Backend
 1. Primeiramente, digite no terminal para clonar o repositório:
