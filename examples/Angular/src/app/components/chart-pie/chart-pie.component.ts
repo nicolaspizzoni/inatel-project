@@ -1,22 +1,43 @@
-import { Component } from '@angular/core';
-
+import { Component, OnInit } from '@angular/core';
 import Chart from 'chart.js/auto';
-import { ChartType, ChartOptions } from 'chart.js';
 
 @Component({
   selector: 'app-chart-pie',
   templateUrl: './chart-pie.component.html',
-  styleUrls: ['./chart-pie.component.scss']
+  styleUrls: ['./chart-pie.component.scss'],
 })
-export class ChartPieComponent {
+export class ChartPieComponent implements OnInit {
   public chart: any;
 
-  public pieChartOptions: ChartOptions = {
-    responsive: true,
-  };
-  public pieChartLabels = ['Red', 'Blue', 'Yellow'];
-  public pieChartData = [40, 30, 20];
-  public pieChartType: ChartType = 'pie';
-  public pieChartLegend = true;
-  public pieChartPlugins = [];
+  ngOnInit() {
+    this.createChart()
+  }
+
+  createChart() {
+    this.chart = new Chart('MyChart', {
+      type: 'pie', //informa o tipo do gráfico
+
+      data: {
+        labels: ['Red', 'Pink', 'Green', 'Yellow', 'Orange', 'Blue'],
+        datasets: [
+          {
+            label: 'My First Dataset',
+            data: [300, 240, 100, 432, 253, 34],
+            backgroundColor: [
+              'red',
+              'pink',
+              'green',
+              'yellow',
+              'orange',
+              'blue',
+            ],
+            hoverOffset: 4,
+          },
+        ],
+      },
+      options: {
+        aspectRatio: 2.5,
+      },
+    });
+  }
 }
