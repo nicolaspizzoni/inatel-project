@@ -1,7 +1,8 @@
 <h1>Download: {{totalDownload}} | Upload: {{totalUpload}} | Total: {{totalDownload + totalUpload}}</h1>
-<app-chart-pie></app-chart-pie>
-<ul class="red">
-  <li *ngFor="let trafic of traficData">
-    Nome do serviço: {{trafic.name}} - Upload: {{trafic.upload}} - Download: {{trafic.download}}
-  </li>
-</ul>
+<main>
+  <h1>Acompanhe o trafego de dados de suas aplicações</h1>
+  <div class="content" *ngIf="traficData.length > 0">
+    <app-chart-pie [chartId]="'DownloadChart'" [mostTraffic]="chartData.slice(0, 6)"></app-chart-pie>
+    <app-traffic-table [traffic]="traficData"></app-traffic-table>
+  </div>
+</main>
