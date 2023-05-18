@@ -11,14 +11,14 @@ interface ProtocolTrafic {
 }
 
 export interface TraficDataContent {
-  create_time: string,
+  create_time?: string,
   download: string,
-  download_speed: string,
-  host_traffic: HostTrafic[],
-  last_time_update: string,
+  download_speed?: string,
+  host_traffic?: HostTrafic[],
+  last_time_update?: string,
   name: string,
-  pid: string,
-  protocol_traffic: ProtocolTrafic[],
+  pid?: string,
+  protocol_traffic?: ProtocolTrafic[],
   upload:string,
-  upload_speed: string
+  upload_speed?: string
 }

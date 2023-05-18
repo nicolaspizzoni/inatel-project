@@ -34,15 +34,18 @@ $frontend-angular-theme: mat.define-light-theme((
 @include mat.all-component-themes($frontend-angular-theme);
 
 /* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
 @import './assets/__variables';
 
-body {
-    box-sizing: border-box;
-    padding: 0;
-    margin: 0;
-
-    background-color: var(--anti-flash-white)
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
 }
 
 html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body {
+  margin: 0;
+  font-family: Poppins, "Helvetica Neue", sans-serif;
+  background-color: var(--cultured);
+}
