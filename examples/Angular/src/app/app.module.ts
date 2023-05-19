@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http'
-
+import { HttpClientModule } from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { FormsModule } from '@angular/forms';
 import { HomeComponent } from './pages/home/home.component';
@@ -16,6 +15,7 @@ import { TrafficTableComponent } from './components/traffic-table/traffic-table.
 import { SideNavComponent } from './components/side-nav/side-nav.component';
 import { HostsPageComponent } from './pages/hosts-page/hosts-page.component';
 import { ProtocolComponent } from './pages/protocol/protocol.component';
+import { BodyComponent } from './components/body/body.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +26,8 @@ import { ProtocolComponent } from './pages/protocol/protocol.component';
     TrafficTableComponent,
     SideNavComponent,
     HostsPageComponent,
-    ProtocolComponent
+    ProtocolComponent,
+    BodyComponent
   ],
   imports: [
     BrowserModule,
