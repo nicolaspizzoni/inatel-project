@@ -10,26 +10,26 @@ import {
 import Chart from 'chart.js/auto';
 import { takeWhile, timer } from 'rxjs';
 import { parseDownloadValue } from 'src/app/helpers/convertBytes';
-import { TraficDataContent } from 'src/app/interfaces/traficData';
+import { ProtocolTrafic } from 'src/app/interfaces/traficData';
 
 @Component({
-  selector: 'app-chart-pie',
-  templateUrl: './chart-pie.component.html',
-  styleUrls: ['./chart-pie.component.scss'],
+  selector: 'app-chart-pie-protocol',
+  templateUrl: './chart-pie-protocol.component.html',
+  styleUrls: ['./chart-pie-protocol.component.scss'],
 })
-export class ChartPieComponent implements AfterViewInit, OnDestroy {
+export class ChartPieProtocolComponent implements AfterViewInit, OnDestroy {
   @Input() chartId = '';
   @Input() label = '';
-  @Input() autoRefresh = false;
-  @Input() mostTraffic: TraficDataContent[] = [];
+  @Input() mostTraffic: ProtocolTrafic[] = [];
   @Output() changes = new EventEmitter();
+  @Input() autoRefresh = false;
 
   public chart: any;
   downloads: Array<number> | undefined;
   labels: Array<string> | undefined;
   alive = false;
   aliveRefresh = false;
-  selectedType = ''
+  selectedType = '';
 
   ngAfterViewInit() {
     this.initChart();
@@ -58,19 +58,18 @@ export class ChartPieComponent implements AfterViewInit, OnDestroy {
   }
 
   refreshChart(type?: string) {
-    this.selectedType = type ? type : ''
     if (type === 'upload') {
-      this.downloads = this.mostTraffic.map((obj: TraficDataContent) => {
+      this.downloads = this.mostTraffic.map((obj: ProtocolTrafic) => {
         let number = parseDownloadValue(obj.upload);
         return number;
       });
     } else if (type === 'download') {
-      this.downloads = this.mostTraffic.map((obj: TraficDataContent) => {
+      this.downloads = this.mostTraffic.map((obj: ProtocolTrafic) => {
         let number = parseDownloadValue(obj.download);
         return number;
       });
     } else {
-      this.downloads = this.mostTraffic.map((obj: TraficDataContent) => {
+      this.downloads = this.mostTraffic.map((obj: ProtocolTrafic) => {
         let numberDown = parseDownloadValue(obj.download);
         let numberUp = parseDownloadValue(obj.upload);
         let number = numberDown + numberUp;
@@ -78,8 +77,8 @@ export class ChartPieComponent implements AfterViewInit, OnDestroy {
       });
     }
 
-    this.labels = this.mostTraffic.map((obj: TraficDataContent) => {
-      return obj.name;
+    this.labels = this.mostTraffic.map((obj: ProtocolTrafic) => {
+      return obj.protocol;
     });
 
     let chartStatus = Chart.getChart(this.chartId);
@@ -118,7 +117,7 @@ export class ChartPieComponent implements AfterViewInit, OnDestroy {
         ],
       },
       options: {
-        aspectRatio: 2.5,
+        aspectRatio: 1,
       },
     });
   }

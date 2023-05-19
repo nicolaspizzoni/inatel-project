@@ -1,10 +1,10 @@
-interface HostTrafic {
+export interface HostTrafic {
   download: string,
   host: string,
   upload: string
 }
 
-interface ProtocolTrafic {
+export interface ProtocolTrafic {
   download: string,
   protocol: string,
   upload: string

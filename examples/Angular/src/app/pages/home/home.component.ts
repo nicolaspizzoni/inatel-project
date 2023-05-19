@@ -1,3 +1,4 @@
+import { timer, takeWhile } from 'rxjs';
 import {
   Component,
   OnInit,
@@ -29,6 +30,8 @@ export class HomeComponent implements OnInit, OnDestroy {
   chartData: TraficDataContent[] = [];
   headerCardsData: HeaderCard[] | undefined;
   loading = true;
+  checked = false;
+  disabledReloadButton = false;
 
   totalOthersDownload = 0;
   totalOthersUpload = 0;
@@ -40,14 +43,12 @@ export class HomeComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.alive = true;
-
     this.getTrafficData();
   }
 
   getToggle(event: string) {
     this.toggleDownUp = event;
-    this.getChartData()
+    this.getChartData();
   }
 
   // getChartData faz o sort dos dados para retornar no chart processos com mais upload | mais download | mais da somatória
@@ -65,8 +66,8 @@ export class HomeComponent implements OnInit, OnDestroy {
           parseFloat(b.upload) * multiplierBUp,
           false
         );
-      }else if(this.toggleDownUp == 'download') {
-      //verifica se o toggle de download esta marcado e filtra por download
+      } else if (this.toggleDownUp == 'download') {
+        //verifica se o toggle de download esta marcado e filtra por download
 
         return compare(
           parseFloat(a.download) * multiplierADown,
@@ -76,14 +77,14 @@ export class HomeComponent implements OnInit, OnDestroy {
       }
 
       // caso nenhum dos dois estiver marcado o de todos estará marcado e retornará a somatória de download e upload
-      let totalUpDownA = parseFloat(a.download) * multiplierADown + parseFloat(a.upload) * multiplierAUp
-      let totalUpDownB = parseFloat(b.download) * multiplierBDown + parseFloat(b.upload) * multiplierBUp
+      let totalUpDownA =
+        parseFloat(a.download) * multiplierADown +
+        parseFloat(a.upload) * multiplierAUp;
+      let totalUpDownB =
+        parseFloat(b.download) * multiplierBDown +
+        parseFloat(b.upload) * multiplierBUp;
 
-      return compare(
-        totalUpDownA,
-        totalUpDownB,
-        false
-      );
+      return compare(totalUpDownA, totalUpDownB, false);
     });
 
     // pega os 5 do topo dos filtrados
@@ -112,15 +113,13 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.cdRef.detectChanges();
   }
 
-  getTrafficData() {
-    this.traficData = [];
+  toggleChange() {
+    this.checked = !this.checked;
+    this.disabledReloadButton = !this.disabledReloadButton;
+    this.getTrafficData();
+  }
 
-    this.loading = true;
-    this.headerCardsData = undefined;
-
-    // timer(0, 6000)
-    //   .pipe(takeWhile(() => this.alive))
-    //   .subscribe(() => {
+  callTraficDataService() {
 
     this.traficDataService.getAll().subscribe((data) => {
       data.forEach((traffic, index) => {
@@ -144,7 +143,26 @@ export class HomeComponent implements OnInit, OnDestroy {
       this.loading = false;
       this.cdRef.detectChanges();
     });
-    // });
+  }
+
+  getTrafficData() {
+    this.traficData = [];
+
+    this.loading = true;
+    this.headerCardsData = undefined;
+
+    if (this.checked) {
+      this.alive = true;
+
+      timer(0, 6000)
+        .pipe(takeWhile(() => this.alive))
+        .subscribe(() => {
+          this.callTraficDataService();
+        });
+    } else {
+      this.alive = false;
+      this.callTraficDataService();
+    }
   }
 
   ngOnDestroy() {

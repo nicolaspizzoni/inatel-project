@@ -23,6 +23,11 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { ChartPieHostComponent } from './components/chart-pie-host/chart-pie-host.component';
+import { TrafficTableHostComponent } from './components/traffic-table-host/traffic-table-host.component';
+import { ChartPieProtocolComponent } from './components/chart-pie-protocol/chart-pie-protocol.component';
+import { TrafficTableProtocolComponent } from './components/traffic-table-protocol/traffic-table-protocol.component';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 @NgModule({
   declarations: [
@@ -36,6 +41,10 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
     ProtocolComponent,
     BodyComponent,
     HeaderCardsComponent,
+    ChartPieHostComponent,
+    TrafficTableHostComponent,
+    ChartPieProtocolComponent,
+    TrafficTableProtocolComponent,
   ],
   imports: [
     BrowserModule,
@@ -51,6 +60,7 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
     MatButtonModule,
     MatIconModule,
     MatButtonToggleModule,
+    MatSlideToggleModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

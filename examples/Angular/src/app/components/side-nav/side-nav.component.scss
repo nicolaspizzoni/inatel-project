@@ -1,34 +1,35 @@
 .sidenav {
-    background: #263238;
+    background: #728d8e;
     transition: all .5s ease;
     position: fixed;
     z-index: 1;
     top: 0;
     width: 5rem;
     height: 100vh;
-    box-shadow: 0.063rem 0 1.25rem 0 #8690a3;
+    box-shadow: 0.063rem 0 1.25rem 0 #ccc;
 
-    .Logo-container {
+    .logo-container {
         display: flex;
         align-items: center;
-        padding: 0.938rem 0.938rem 0 0.938rem;
         width: 100%;
+        margin-bottom: 30px;
 
 
-        .Logo {
-            background: #fff;
+        .logo {
             text-align: center;
-            width: 3rem;
-            min-width: 3rem;
             border-radius: 0.313rem;
-            padding: 0.313rem;
             font-size: 24px;
             font-weight: 900;
             cursor: pointer;
-            border: none
+            border: none;
+            background-color: transparent;
+
+            img {
+              width: 80px;
+            }
         }
 
-        .Logo-text{
+        .logo-text{
             margin-left: 1.5rem;
             font-size: 24px;
             font-weight: 700;
@@ -44,13 +45,6 @@
             border-radius: 50%;
             background-color: transparent;
             border: none;
-
-            .fa-times{
-                color: #fff;
-                font-size: 24px;
-            }
-
-
 
         }
 
@@ -113,6 +107,6 @@
 
     .sidenav-link-icon,
     .sidenav-link-text {
-        color: #000        
+        color: #000
     }
 }

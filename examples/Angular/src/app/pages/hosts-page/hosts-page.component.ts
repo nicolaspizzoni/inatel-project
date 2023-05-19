@@ -1,3 +1,4 @@
+import { timer, takeWhile } from 'rxjs';
 import {
   Component,
   OnInit,
@@ -6,7 +7,7 @@ import {
   ChangeDetectorRef,
 } from '@angular/core';
 import { TraficDataService } from 'src/app/services/trafic-data.service';
-import { TraficDataContent } from 'src/app/interfaces/traficData';
+import { HostTrafic, TraficDataContent } from 'src/app/interfaces/traficData';
 import {
   compare,
   convertBytesToString,
@@ -15,7 +16,10 @@ import {
   getUploadNumber,
   parseDownloadValue,
 } from 'src/app/helpers/convertBytes';
-import { convertTrafficData } from 'src/app/helpers/convertTrafficData';
+import {
+  convertHostTrafficData,
+  convertTrafficData,
+} from 'src/app/helpers/convertTrafficData';
 import { HeaderCard } from 'src/app/interfaces/headerCard';
 
 @Component({
@@ -26,10 +30,12 @@ import { HeaderCard } from 'src/app/interfaces/headerCard';
 })
 export class HostsPageComponent implements OnInit, OnDestroy {
   alive = false;
-  traficData: TraficDataContent[] = [];
-  chartData: TraficDataContent[] = [];
+  traficData: HostTrafic[] = [];
+  chartData: HostTrafic[] = [];
   headerCardsData: HeaderCard[] | undefined;
   loading = true;
+  checked = false;
+  disabledReloadButton = false;
 
   totalOthersDownload = 0;
   totalOthersUpload = 0;
@@ -41,8 +47,12 @@ export class HostsPageComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.alive = true;
+    this.getTrafficData();
+  }
 
+  toggleChange() {
+    this.checked = !this.checked;
+    this.disabledReloadButton = !this.disabledReloadButton;
     this.getTrafficData();
   }
 
@@ -104,7 +114,7 @@ export class HostsPageComponent implements OnInit, OnDestroy {
 
     // adicionando o restante dos processos ao chartData para mostrar como 'Outros' no gráfico
     this.chartData.push({
-      name: 'Outros',
+      host: 'Outros',
       download: totalDownOthersString,
       upload: totalUpOthersString,
     });
@@ -113,19 +123,12 @@ export class HostsPageComponent implements OnInit, OnDestroy {
     this.cdRef.detectChanges();
   }
 
-  getTrafficData() {
-    this.traficData = [];
-
-    this.loading = true;
-    this.headerCardsData = undefined;
-
-    // timer(0, 6000)
-    //   .pipe(takeWhile(() => this.alive))
-    //   .subscribe(() => {
-
-    this.traficDataService.getAll().subscribe((data) => {
-      data.forEach((traffic, index) => {
-        this.traficData = convertTrafficData(traffic, index);
+  callTraficDataService() {
+    this.traficDataService.getAll().subscribe((data: TraficDataContent[]) => {
+      data.forEach((traffic: TraficDataContent, index) => {
+        traffic.host_traffic?.forEach((traffic: HostTrafic, index) => {
+          this.traficData = convertHostTrafficData(traffic, index);
+        });
       });
 
       let totalDownload = this.traficData.reduce(getDownloadNumber, 0);
@@ -145,7 +148,26 @@ export class HostsPageComponent implements OnInit, OnDestroy {
       this.loading = false;
       this.cdRef.detectChanges();
     });
-    // });
+  }
+
+  getTrafficData() {
+    this.traficData = [];
+
+    this.loading = true;
+    this.headerCardsData = undefined;
+
+    if (this.checked) {
+      this.alive = true;
+
+      timer(0, 6000)
+        .pipe(takeWhile(() => this.alive))
+        .subscribe(() => {
+          this.callTraficDataService();
+        });
+    } else {
+      this.alive = false;
+      this.callTraficDataService();
+    }
   }
 
   ngOnDestroy() {

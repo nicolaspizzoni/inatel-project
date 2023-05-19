@@ -1,17 +1,16 @@
 <div class="sidenav" [ngClass]="collapsed ? 'sidenav-collapsed': '' ">
-    <div class="logo-container">
-        <button class="logo" (click)="toggLeCollapse()">A</button>
-        <div class="logo-text" *ngIf="collapsed"> Angular </div>
-        <button class="btn-close" *ngIf="collapsed" (click)="closeSidenav()">
-            <i class="fal fa-times close-icon"></i>
-        </button>
-    </div>
-    <ul class="sidenav-nav">
-        <li class="sidenav-nav-item" *ngFor="let data of navData">
-            <a class="sidenav-nav-link" [routerLink]="[data.routeLink]">
-                <i class="sidenav-link-icon" [class]="data.icon"></i>
-                <span class="sidenav-link-text" *ngIf="collapsed">{{data.LabeL}}</span>
-            </a>
-        </li>
-    </ul>
+  <div class="logo-container">
+    <button class="logo" (click)="toggLeCollapse()">
+      <img src="../../../assets/images/logo.png" alt="">
+    </button>
+    <div class="logo-text" *ngIf="collapsed"> NetMeter </div>
+  </div>
+  <ul class="sidenav-nav">
+    <li class="sidenav-nav-item" *ngFor="let data of navData">
+      <a class="sidenav-nav-link" [routerLink]="[data.routeLink]">
+        <mat-icon class="sidenav-link-icon">{{data.icon}}</mat-icon>
+        <span class="sidenav-link-text" *ngIf="collapsed">{{data.LabeL}}</span>
+      </a>
+    </li>
+  </ul>
 </div>

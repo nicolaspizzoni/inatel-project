@@ -1,1 +1,33 @@
-<p>protocol works!</p>
+<main>
+  <div class="title">
+    <h1>Protocolos</h1>
+    <div class="button-container">
+      <button (click)="getTrafficData()" mat-mini-fab color="primary" aria-label="Atualizar">
+        <mat-icon>autorenew</mat-icon>
+      </button>
+      <mat-slide-toggle
+          class="example-margin"
+          color="primary"
+          [checked]="checked"
+          (change)="toggleChange()"
+      >
+        Auto
+      </mat-slide-toggle>
+    </div>
+  </div>
+  <h2>Acompanhe o tráfego de dados por protocolos</h2>
+  <app-header-cards [trafficDataCount]="headerCardsData"></app-header-cards>
+  <h2>Protocolos com maiores tráfego de dados em bytes</h2>
+
+  <div class="content" *ngIf="!loading; else loadingContent">
+    <app-chart-pie-protocol  [autoRefresh]="checked" [label]="toggleDownUp" [chartId]="'HostsChart'"
+      [mostTraffic]="chartData.slice(0, 6)" (changes)="getToggle($event)"></app-chart-pie-protocol>
+    <app-traffic-table-protocol [traffic]="traficData"></app-traffic-table-protocol>
+  </div>
+  <ng-template #loadingContent>
+    <div class="load-container">
+      <mat-spinner class="mat-spinner"></mat-spinner>
+      <div class="skeleton-box"></div>
+    </div>
+  </ng-template>
+</main>

@@ -22,7 +22,7 @@ main {
   justify-content: space-between;
 
   text-align: left;
-  width: 70%;
+  width: 100%;
   margin-bottom: 30px;
 }
 
@@ -63,5 +63,7 @@ main {
 .button-container {
   display: flex;
   justify-content: center;
+  align-items: center;
+  gap: 20px;
   width: 120px;
 }

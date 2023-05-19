@@ -1,18 +1,26 @@
 <main>
   <div class="title">
     <h1>Processos</h1>
-    <div class="example-button-container">
-      <button (click)="getTrafficData()" mat-mini-fab color="primary" aria-label="Atualizar">
+    <div class="button-container">
+      <button (click)="getTrafficData()" [disabled]="disabledReloadButton" mat-mini-fab color="primary" aria-label="Atualizar">
         <mat-icon>autorenew</mat-icon>
       </button>
+      <mat-slide-toggle
+          class="example-margin"
+          color="primary"
+          [checked]="checked"
+          (change)="toggleChange()"
+      >
+        Auto
+      </mat-slide-toggle>
     </div>
   </div>
-  <h2>Acompanhe o trafego de dados de suas aplicações</h2>
+  <h2>Acompanhe o tráfego de dados de suas aplicações</h2>
   <app-header-cards [trafficDataCount]="headerCardsData"></app-header-cards>
-  <h2>Processos com maiores trafego de dados</h2>
+  <h2>Processos com maiores tráfego de dados em bytes</h2>
 
   <div class="content" *ngIf="!loading; else loadingContent">
-    <app-chart-pie [label]="toggleDownUp" [chartId]="'DownloadChart'"
+    <app-chart-pie [autoRefresh]="checked" [label]="toggleDownUp" [chartId]="'ProcessChart'"
       [mostTraffic]="chartData.slice(0, 6)" (changes)="getToggle($event)"></app-chart-pie>
     <app-traffic-table [traffic]="traficData"></app-traffic-table>
   </div>
