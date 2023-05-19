@@ -4,6 +4,7 @@ import { MatSort } from '@angular/material/sort';
 import { map } from 'rxjs/operators';
 import { Observable, of as observableOf, merge } from 'rxjs';
 import { TraficDataContent } from 'src/app/interfaces/traficData';
+import { compare, getMultiplier } from 'src/app/helpers/convertBytes';
 
 const EXAMPLE_DATA: TraficDataContent[] = [];
 
@@ -19,6 +20,24 @@ export class TrafficTableDataSource extends DataSource<TraficDataContent> {
 
   constructor() {
     super();
+  }
+
+  transformDateToNumber(dateStr: string) {
+    const parts = dateStr.split(/[/: ,]/);
+
+    // Extrair cada parte da data
+    const day = parseInt(parts[0], 10);
+    const month = parseInt(parts[1], 10) - 1; // Meses com zero
+    const year = parseInt(parts[2], 10);
+    const hours = parseInt(parts[3], 10);
+    const minutes = parseInt(parts[4], 10);
+    const seconds = parseInt(parts[5], 10);
+
+    // Criando um novo obj de data
+    const date = new Date(year, month, day, hours, minutes, seconds);
+
+    // Pegando um número a partir da data
+    return date.getTime();
   }
 
   /**
@@ -65,29 +84,6 @@ export class TrafficTableDataSource extends DataSource<TraficDataContent> {
     }
   }
 
-  /**
-   * Sort the data (client-side). If you're using server-side sorting,
-   * this would be replaced by requesting the appropriate data from the server.
-   */
-
-  getMultiplier(obj: TraficDataContent, type: string) {
-    const multipliers: { [key: string]: number } = {
-      "B": 1,
-      "KB": 1000,
-      "MB": 1000000,
-      "GB": 1000000000,
-    };
-    if (type == 'download') {
-      return (
-        multipliers[obj.download.slice(-2)] ||
-        multipliers[obj.download.slice(-1)]
-      );
-    }
-    return (
-      multipliers[obj.upload.slice(-2)] || multipliers[obj.upload.slice(-1)]
-    );
-  }
-
   private getSortedData(data: TraficDataContent[]): TraficDataContent[] {
     if (!this.sort || !this.sort.active || this.sort.direction === '') {
       return data;
@@ -96,18 +92,38 @@ export class TrafficTableDataSource extends DataSource<TraficDataContent> {
     return data.sort((a, b) => {
       const isAsc = this.sort?.direction === 'asc';
 
-      let multiplierADown = this.getMultiplier(a, 'download')
-      let multiplierAUp = this.getMultiplier(a, 'upload')
-      let multiplierBDown = this.getMultiplier(b, 'download')
-      let multiplierBUp = this.getMultiplier(b, 'upload')
+      let multiplierADown = getMultiplier(a.download.slice(-2).toUpperCase());
+      let multiplierAUp = getMultiplier(a.upload.slice(-2).toUpperCase());
+      let multiplierBDown = getMultiplier(b.download.slice(-2).toUpperCase());
+      let multiplierBUp = getMultiplier(b.upload.slice(-2).toUpperCase());
 
       switch (this.sort?.active) {
         case 'name':
           return compare(a.name, b.name, isAsc);
         case 'download':
-          return compare((parseFloat(a.download) * multiplierADown), (parseFloat(b.download) * multiplierBDown), isAsc);
+          return compare(
+            parseFloat(a.download) * multiplierADown,
+            parseFloat(b.download) * multiplierBDown,
+            isAsc
+          );
         case 'upload':
-          return compare((parseFloat(a.upload) * multiplierAUp), (parseFloat(b.upload) * multiplierBUp), isAsc);
+          return compare(
+            parseFloat(a.upload) * multiplierAUp,
+            parseFloat(b.upload) * multiplierBUp,
+            isAsc
+          );
+        case 'create_time':
+          return compare(
+            this.transformDateToNumber(a.create_time!),
+            this.transformDateToNumber(b.create_time!),
+            isAsc
+          );
+        case 'last_time_update':
+          return compare(
+            this.transformDateToNumber(a.last_time_update!),
+            this.transformDateToNumber(b.last_time_update!),
+            isAsc
+          );
         default:
           return 0;
       }
@@ -115,11 +131,3 @@ export class TrafficTableDataSource extends DataSource<TraficDataContent> {
   }
 }
 
-/** Simple sort comparator for example ID/Name columns (for client-side sorting). */
-function compare(
-  a: string | number,
-  b: string | number,
-  isAsc: boolean
-): number {
-  return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
-}

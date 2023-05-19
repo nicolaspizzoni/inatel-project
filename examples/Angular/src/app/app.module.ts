@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http'
+import { HttpClientModule } from '@angular/common/http';
+import { MatCardModule } from '@angular/material/card';
 
 import { AppComponent } from './app.component';
 import { FormsModule } from '@angular/forms';
@@ -16,6 +17,11 @@ import { TrafficTableComponent } from './components/traffic-table/traffic-table.
 import { SideNavComponent } from './components/side-nav/side-nav.component';
 import { HostsPageComponent } from './pages/hosts-page/hosts-page.component';
 import { ProtocolComponent } from './pages/protocol/protocol.component';
+import { HeaderCardsComponent } from './components/header-cards/header-cards.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 
 @NgModule({
   declarations: [
@@ -26,7 +32,8 @@ import { ProtocolComponent } from './pages/protocol/protocol.component';
     TrafficTableComponent,
     SideNavComponent,
     HostsPageComponent,
-    ProtocolComponent
+    ProtocolComponent,
+    HeaderCardsComponent,
   ],
   imports: [
     BrowserModule,
@@ -36,9 +43,14 @@ import { ProtocolComponent } from './pages/protocol/protocol.component';
     BrowserAnimationsModule,
     MatTableModule,
     MatPaginatorModule,
-    MatSortModule
+    MatSortModule,
+    MatCardModule,
+    MatProgressSpinnerModule,
+    MatButtonModule,
+    MatIconModule,
+    MatButtonToggleModule,
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

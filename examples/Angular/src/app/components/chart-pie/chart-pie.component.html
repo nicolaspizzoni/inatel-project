@@ -1,3 +1,8 @@
 <div class="chart-container">
   <canvas id="{{chartId}}">{{ chart }}</canvas>
+  <mat-button-toggle-group class="toggle-group" name="dataType" aria-label="Tipo de dado">
+    <mat-button-toggle (click)="toggleDownUp('todos')" [checked]="true" value="Upload + Download">Upload + Download</mat-button-toggle>
+    <mat-button-toggle (click)="toggleDownUp('download')" value="Download">Download</mat-button-toggle>
+    <mat-button-toggle (click)="toggleDownUp('upload')" value="Upload">Upload</mat-button-toggle>
+  </mat-button-toggle-group>
 </div>
