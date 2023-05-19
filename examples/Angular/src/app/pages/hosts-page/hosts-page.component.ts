@@ -21,7 +21,7 @@ import { HeaderCard } from 'src/app/interfaces/headerCard';
 @Component({
   selector: 'app-hosts-page',
   templateUrl: './hosts-page.component.html',
-  styleUrls: ['./hosts-page.component.css'],
+  styleUrls: ['./hosts-page.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HostsPageComponent implements OnInit, OnDestroy {
