@@ -1,1 +1,25 @@
-<p>hosts-page works!</p>
+<main>
+  <div class="title">
+    <h1>Hosts</h1>
+    <div class="example-button-container">
+      <button (click)="getTrafficData()" mat-mini-fab color="primary" aria-label="Atualizar">
+        <mat-icon>autorenew</mat-icon>
+      </button>
+    </div>
+  </div>
+  <h2>Acompanhe o trafego de dados por hosts</h2>
+  <app-header-cards [trafficDataCount]="headerCardsData"></app-header-cards>
+  <h2>Hosts com maiores trafego de dados</h2>
+
+  <div class="content" *ngIf="!loading; else loadingContent">
+    <app-chart-pie [label]="toggleDownUp" [chartId]="'DownloadChart'"
+      [mostTraffic]="chartData.slice(0, 6)" (changes)="getToggle($event)"></app-chart-pie>
+    <app-traffic-table [traffic]="traficData"></app-traffic-table>
+  </div>
+  <ng-template #loadingContent>
+    <div class="load-container">
+      <mat-spinner class="mat-spinner"></mat-spinner>
+      <div class="skeleton-box"></div>
+    </div>
+  </ng-template>
+</main>

@@ -19,6 +19,7 @@ export function compare(
   return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
 }
 
+// função para converter string de trafego para numero
 export function parseDownloadValue(download: string): number {
   const numericValue = parseFloat(download);
   const unit = download.slice(-2).toUpperCase();
@@ -26,6 +27,7 @@ export function parseDownloadValue(download: string): number {
   return numericValue * multiplier;
 }
 
+// função para converter bytes number para string com suas medidas
 export function convertBytesToString(bytes: number): string {
   if (bytes >= 1e9) {
     return (bytes / 1e9).toFixed(2) + "GB";
