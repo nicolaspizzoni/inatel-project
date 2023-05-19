@@ -17,6 +17,7 @@ import { TrafficTableComponent } from './components/traffic-table/traffic-table.
 import { SideNavComponent } from './components/side-nav/side-nav.component';
 import { HostsPageComponent } from './pages/hosts-page/hosts-page.component';
 import { ProtocolComponent } from './pages/protocol/protocol.component';
+import { BodyComponent } from './components/body/body.component';
 import { HeaderCardsComponent } from './components/header-cards/header-cards.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatButtonModule } from '@angular/material/button';
@@ -33,6 +34,7 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
     SideNavComponent,
     HostsPageComponent,
     ProtocolComponent,
+    BodyComponent,
     HeaderCardsComponent,
   ],
   imports: [

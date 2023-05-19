@@ -1,6 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { io } from 'socket.io-client';
 
+interface SideNavToggle {
+  screenWidth: number;
+  collapsed: boolean;
+}
+
+
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -20,6 +27,16 @@ export class AppComponent implements OnInit {
     //   50002
     // ];
     this.createSocketConnection(50000);
+  }
+
+  isSideNavCollapsed = false;
+  screenWidth = 0;
+
+  onToggleSideNav(data: any): void
+  {
+    console.log("data",data)
+    this.screenWidth = data.screenWidth;
+    this.isSideNavCollapsed = data.collapsed;
   }
 
   createSocketConnection(port: number) {
