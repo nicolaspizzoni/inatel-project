@@ -11,6 +11,14 @@ export function getMultiplier(unit: string): number {
   }
 }
 
+export function compare(
+  a: string | number,
+  b: string | number,
+  isAsc: boolean
+): number {
+  return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
+}
+
 export function parseDownloadValue(download: string): number {
   const numericValue = parseFloat(download);
   const unit = download.slice(-2).toUpperCase();

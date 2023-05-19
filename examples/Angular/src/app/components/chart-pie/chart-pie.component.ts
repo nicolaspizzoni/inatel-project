@@ -1,10 +1,13 @@
 import {
   AfterViewInit,
   Component,
+  EventEmitter,
   Input,
   OnDestroy,
   OnInit,
+  Output,
 } from '@angular/core';
+import { MatButtonToggleChange } from '@angular/material/button-toggle';
 import Chart from 'chart.js/auto';
 import { takeWhile, timer } from 'rxjs';
 import { parseDownloadValue } from 'src/app/helpers/convertBytes';
@@ -17,23 +20,46 @@ import { TraficDataContent } from 'src/app/interfaces/traficData';
 })
 export class ChartPieComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() chartId = '';
-  public chart: any;
+  @Input() label = '';
   @Input() mostTraffic: TraficDataContent[] = [];
+  @Output() changes = new EventEmitter();
+
+  public chart: any;
   downloads: Array<number> | undefined;
   labels: Array<string> | undefined;
-  alive: boolean = false;
+  alive = false;
 
   ngOnInit() {
     this.alive = true;
+    this.refreshChart()
+  }
 
-    timer(0, 8000)
+  ngAfterViewInit() {
+    this.createChart();
+  }
+
+  refreshChart(type?: string) {
+    timer(500)
       .pipe(takeWhile(() => this.alive))
       .subscribe(() => {
-        // Mover para dentro do timer do helper
-        this.downloads = this.mostTraffic.map((obj: TraficDataContent) => {
-          let number = parseDownloadValue(obj.download);
-          return number;
-        });
+        if(type === 'upload') {
+          this.downloads = this.mostTraffic.map((obj: TraficDataContent) => {
+            let number = parseDownloadValue(obj.upload);
+            return number;
+          });
+        }else if(type === 'download') {
+          this.downloads = this.mostTraffic.map((obj: TraficDataContent) => {
+            let number = parseDownloadValue(obj.download);
+            return number;
+          });
+        }else {
+          this.downloads = this.mostTraffic.map((obj: TraficDataContent) => {
+            let numberDown = parseDownloadValue(obj.download)
+            let numberUp = parseDownloadValue(obj.upload)
+            let number = numberDown + numberUp
+            return number;
+          });
+        }
 
         this.labels = this.mostTraffic.map((obj: TraficDataContent) => {
           return obj.name;
@@ -48,16 +74,12 @@ export class ChartPieComponent implements OnInit, AfterViewInit, OnDestroy {
       });
   }
 
-  ngAfterViewInit() {
-    this.createChart();
-  }
-
-  ngOnDestroy() {
-    this.alive = false;
+  toggleDownUp(event: string) {
+    this.changes.emit(event);
+    this.refreshChart(event);
   }
 
   createChart() {
-    // mover new Chart para Home
     this.chart = new Chart(this.chartId, {
       type: 'pie', //informa o tipo do gráfico
 
@@ -65,7 +87,7 @@ export class ChartPieComponent implements OnInit, AfterViewInit, OnDestroy {
         labels: this.labels,
         datasets: [
           {
-            label: 'Donwload',
+            label: this.label,
             data: this.downloads,
             backgroundColor: [
               'red',
@@ -75,7 +97,7 @@ export class ChartPieComponent implements OnInit, AfterViewInit, OnDestroy {
               'blue',
               'purple',
             ],
-            hoverOffset: 4,
+            hoverOffset: 6,
           },
         ],
       },
@@ -83,5 +105,9 @@ export class ChartPieComponent implements OnInit, AfterViewInit, OnDestroy {
         aspectRatio: 2.5,
       },
     });
+  }
+
+  ngOnDestroy() {
+    this.alive = false;
   }
 }

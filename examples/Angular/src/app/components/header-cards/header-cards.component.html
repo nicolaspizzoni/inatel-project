@@ -1,0 +1,19 @@
+<div class="container" *ngIf="trafficDataCount; else trafficDataCountLoad">
+  <mat-card *ngFor="let traffic of trafficDataCount; index as i" class="header-card">
+    <mat-card-header>
+      <mat-card-title-group>
+        <mat-card-title>{{traffic.title}}</mat-card-title>
+      </mat-card-title-group>
+    </mat-card-header>
+    <mat-card-content>
+      {{traffic.traffic}}
+    </mat-card-content>
+  </mat-card>
+</div>
+<ng-template #trafficDataCountLoad>
+  <div class="load-container">
+    <div class="skeleton-box"></div>
+    <div class="skeleton-box"></div>
+    <div class="skeleton-box"></div>
+  </div>
+</ng-template>

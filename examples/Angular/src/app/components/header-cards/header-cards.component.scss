@@ -1,37 +1,31 @@
-main {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  text-align: center;
-
-  color: var(--gunmetal);
-
-  h2 {
-    margin: 20px 0;
-    font-weight: 500;
-  }
-
-  padding: 50px;
-}
-
-.title {
+.container {
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
 
-  text-align: left;
-  width: 70%;
-  margin-bottom: 30px;
+  gap: 50px;
+  width: 100%;
+  margin-bottom: 50px;
+}
+
+.header-card {
+  padding: 10px 80px;
+  color: var(--gunmetal);
+
+  mat-card-title {
+    font-weight: bold;
+    font-family: Poppins, "Helvetica Neue", sans-serif;
+  }
 }
 
 .load-container {
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-direction: column;
+  gap: 50px;
   width: 100%;
+  margin-bottom: 50px;
 }
 
 .skeleton-box {
@@ -39,9 +33,8 @@ main {
   box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.2), 0px 8px 10px 1px rgba(0, 0, 0, 0.14), 0px 3px 14px 2px rgba(0, 0, 0, 0.12);
   border-radius: 4px;
   animation: skeleton-loading 1s infinite ease-in;
-  width: 60%;
-  height: 200px;
-  margin-top: 50px;
+  width: 250px;
+  height: 80px;
 }
 
 @keyframes skeleton-loading {
@@ -54,14 +47,4 @@ main {
   100% {
     opacity: 0.4;
   }
-}
-
-.mat-spinner {
-  margin: 100px 0;
-}
-
-.button-container {
-  display: flex;
-  justify-content: center;
-  width: 120px;
 }
